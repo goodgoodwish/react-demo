@@ -54,7 +54,7 @@ export default function reducer(state = initialState, action) {
     case FETCH_BOOK + FULFILLED:
       let books = {}
       action.nodes.forEach(function(item) {
-        books[item.id] = { name: item.name, description: item.description }
+        books[item.id] = { name: item.name, intro: item.intro }
       })
       state = {
         ...state,
@@ -140,7 +140,7 @@ export function fetchBook() {
           nodes {
             id
             name
-            description
+            intro
           }
         }
       }
@@ -176,21 +176,21 @@ export function createBook({ id, name, intro }) {
   }
 }
 
-export function createBookGql({ name, description }) {
+export function createBookGql({ name, intro }) {
   return dispatch => {
     dispatch({ type: CREATE + PENDING })
     const mutateQuery = gql`
-      mutation CreateNewBook($name: String!, $description: String!) {
-        createBook(name: $name, description: $description) {
+      mutation CreateNewBook($name: String!, $intro: String!) {
+        createBook(name: $name, intro: $intro) {
           id
           name
-          description
+          intro
         }
       }
     `
     const vars = {
       name: name,
-      description,
+      intro,
     }
     client
       .mutate({
@@ -211,22 +211,22 @@ export function createBookGql({ name, description }) {
   }
 }
 
-export function updateBook({ bookId, name, description }) {
+export function updateBook({ bookId, name, intro }) {
   return dispatch => {
-    dispatch({ type: UPDATE + PENDING, payload: { bookId, name, description } })
+    dispatch({ type: UPDATE + PENDING, payload: { bookId, name, intro } })
     const mutateQuery = gql`
-      mutation($bookId: String!, $name: String!, $description: String!) {
-        updateBook(bookId: $bookId, name: $name, description: $description) {
+      mutation($bookId: String!, $name: String!, $intro: String!) {
+        updateBook(bookId: $bookId, name: $name, intro: $intro) {
           id
           name
-          description
+          intro
         }
       }
     `
     const vars = {
       bookId,
       name,
-      description,
+      intro,
     }
     client
       .mutate({

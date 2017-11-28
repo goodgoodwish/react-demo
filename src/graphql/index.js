@@ -43,12 +43,12 @@ export const client = new ApolloClient({ networkInterface })
 export function checkApiForPermission() {
   return client
     .query({
-      query: gql('{ me { isOrgAdmin } }'),
+      query: gql('{ me { isAdmin } }'),
     })
     .then(result => {
-      if (result.data.me.isOrgAdmin !== true) {
+      if (result.data.me.isAdmin !== true) {
         throw new Error('not admin')
       }
-      return result.data.me.isOrgAdmin
+      return result.data.me.isAdmin
     })
 }
