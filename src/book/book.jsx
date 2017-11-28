@@ -25,12 +25,12 @@ export const BookGrid = glamorous.div({
   display: 'grid',
   gridTemplateColumns: '1fr 4fr 1fr',
   gridTemplateRows: '3fr 10fr 1fr',
-  backgroundColor: '#f8f8f8',
+  backgroundColor: 'white',
   fontSize: '16px',
 })
 
 const Box = glamorous.div({
-  backgroundColor: '#ffffff',
+  backgroundColor: 'azure',
   textAlign: 'left',
 })
 
