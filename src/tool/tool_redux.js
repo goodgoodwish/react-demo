@@ -3,72 +3,101 @@ import { gql } from 'react-apollo'
 import { PENDING, FULFILLED, REJECTED } from '../redux/config'
 
 // Actions
-const FETCH_BOOK = 'my-app/book/FETCH_BOOK'
-const CREATE = 'my-app/book/CREATE'
-const UPDATE = 'my-app/book/UPDATE'
-const REMOVE = 'my-app/book/REMOVE'
-const CLEAR = 'my-app/book/CLEAR'
-const SELECT_FIRST_BOOK = 'my-app/book/SELECT_FIRST_BOOK'
-const SELECT_BOOK = 'my-app/book/SELECT_BOOK'
+const FETCH_TOOL = 'my-app/tool/FETCH_TOOL'
+const CREATE = 'my-app/tool/CREATE'
+const UPDATE = 'my-app/tool/UPDATE'
+const REMOVE = 'my-app/tool/REMOVE'
+const CLEAR = 'my-app/tool/CLEAR'
+const SELECT_FIRST_TOOL = 'my-app/tool/SELECT_FIRST_TOOL'
+const SELECT_TOOL = 'my-app/tool/SELECT_TOOL'
 
 // Reducer
 const initialState = {
   fetched: true,
   fetching: false,
   UI: {
-    currBookId: '',
+    currToolId: '',
   },
-  books: {
-    book1: {
-      name: "Rework",
-      intro: "Most business books give you the same old advice: write a business plan, study the competition, seek investors, yadda yadda. If you're looking for a book like that, put this one back on the shelf. REWORK is the perfect playbook for anyone who’s ever dreamed of doing it on their own. Entrepreneurs, small-business owners, and artists who don’t want to starve will all find valuable guidance in these pages.",
+  tools: {
+    tool1: {
+      name: "apollo_concept",
+      photo: "apollo_concept.png",
+      code: `query ToolListQuery {
+        books(pageSize: 5) {
+          hasMoreResults
+          pageToken
+          nodes {
+            id
+            name
+            photo
+          }
+        }
+      }`,
     },
-    book2: {
-      name: "7 habits",
-      intro: "Good wish",
+    tool2: {
+      name: "apollo_server",
+      photo: "apollo_server.png",
+      code: ``,
     },
-    book3: {
-      name: "Grokking Algorithms",
-      intro: "Grokking Algorithms: An illustrated guide for programmers and other curious people",
+    tool3: {
+      name: "Rest_vs_GraphQL",
+      photo: "Rest_vs_GraphQL.png",
+      code: ``,
+    },
+    tool_4: {
+      name: "redux-saga: Non-blocking_Saga",
+      photo: "Non-blocking_Saga.png",
+      code: `const [flight, forecast] = yield [call(loadFlight, departure.flightID), call(loadForecast, departure.date)];`,
+    },
+    tool_n: {
+      name: "",
+      photo: "",
+      code: ``,
+    },
+    tool_n2: {
+      name: "",
+      photo: "",
+      code: ``,
+    },
+    tool_n1: {
+      name: "",
+      photo: "",
+      code: ``,
     },
   },
-}
-
-function composedAssignmentId(bookId, userId) {
-  return `${bookId} - ${userId}`
 }
 
 export default function reducer(state = initialState, action) {
   function selectFirstItem() {
-    const itemKeys = Object.keys(state.books)
+    const itemKeys = Object.keys(state.tools)
     if (itemKeys.length > 0) {
-      const bookId = itemKeys[0]
+      const toolId = itemKeys[0]
       state = {
         ...state,
-        UI: { ...state.UI, currBookId: bookId },
+        UI: { ...state.UI, currToolId: toolId },
       }
     }
   }
 
   switch (action.type) {
-    case FETCH_BOOK + FULFILLED:
-      let books = {}
+    case FETCH_TOOL + FULFILLED:
+      let tools = {}
       action.nodes.forEach(function(item) {
-        books[item.id] = { name: item.name, description: item.description }
+        tools[item.id] = { name: item.name, description: item.description }
       })
       state = {
         ...state,
-        books: books,
+        tools: tools,
       }
       break
-    case FETCH_BOOK + PENDING:
+    case FETCH_TOOL + PENDING:
       state = {
         ...state,
         fetching: true,
         fetched: false,
       }
       break
-    case FETCH_BOOK + REJECTED:
+    case FETCH_TOOL + REJECTED:
       state = {
         ...state,
         fetching: false,
@@ -80,7 +109,7 @@ export default function reducer(state = initialState, action) {
     case CREATE + FULFILLED:
       state = {
         ...state,
-        books: { ...state.books, [action.bookId]: action.book },
+        tools: { ...state.tools, [action.toolId]: action.tool },
       }
       break
     case CREATE + REJECTED:
@@ -90,7 +119,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE + FULFILLED:
       state = {
         ...state,
-        books: { ...state.books, [action.bookId]: action.book },
+        tools: { ...state.tools, [action.toolId]: action.tool },
       }
       break
     case UPDATE + REJECTED:
@@ -98,26 +127,26 @@ export default function reducer(state = initialState, action) {
     case REMOVE + PENDING:
       break
     case REMOVE + FULFILLED:
-      let newBooks = { ...state.books }
-      delete newBooks[action.bookId]
+      let newTools = { ...state.tools }
+      delete newTools[action.toolId]
       state = {
         ...state,
-        books: newBooks,
+        tools: newTools,
       }
       selectFirstItem()
       break
     case REMOVE + REJECTED:
       break
     case CLEAR:
-      state = { ...state, books: {} }
+      state = { ...state, tools: {} }
       break
-    case SELECT_FIRST_BOOK:
+    case SELECT_FIRST_TOOL:
       selectFirstItem()
       break
-    case SELECT_BOOK:
+    case SELECT_TOOL:
       state = {
         ...state,
-        UI: { ...state.UI, currBookId: action.bookId },
+        UI: { ...state.UI, currToolId: action.toolId },
       }
       break
     default:
@@ -127,14 +156,14 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-export function fetchBook() {
+export function fetchTool() {
   // return a thunk, from dispatching thunk middleware,
   return function(dispatch) {
-    dispatch({ type: FETCH_BOOK + PENDING })
+    dispatch({ type: FETCH_TOOL + PENDING })
 
-    const bookListQuery = gql`
-      query BookListQuery {
-        books(pageSize: 5) {
+    const toolListQuery = gql`
+      query ToolListQuery {
+        tools(pageSize: 5) {
           hasMoreResults
           pageToken
           nodes {
@@ -147,41 +176,41 @@ export function fetchBook() {
     `
     client
       .query({
-        query: bookListQuery,
+        query: toolListQuery,
       })
       .then(function(data) {
-        dispatch(loadBook(data.data.books.nodes))
+        dispatch(loadTool(data.data.tools.nodes))
       })
       .catch(function(err) {
         dispatch({
-          type: FETCH_BOOK + REJECTED,
+          type: FETCH_TOOL + REJECTED,
           payload: err,
         })
       })
   }
 }
 
-export function loadBook(nodes) {
-  return { type: FETCH_BOOK + FULFILLED, nodes }
+export function loadTool(nodes) {
+  return { type: FETCH_TOOL + FULFILLED, nodes }
 }
 
-export function createBook({ id, name, intro }) {
+export function createTool({ id, name, code }) {
   return dispatch => {
-    const book = { name, intro }
+    const tool = { name, code }
     dispatch({
           type: CREATE + FULFILLED,
-          bookId: id,
-          book,
+          toolId: id,
+          tool,
     })
   }
 }
 
-export function createBookGql({ name, description }) {
+export function createToolGql({ name, description }) {
   return dispatch => {
     dispatch({ type: CREATE + PENDING })
     const mutateQuery = gql`
-      mutation CreateNewBook($name: String!, $description: String!) {
-        createBook(name: $name, description: $description) {
+      mutation CreateNewTool($name: String!, $description: String!) {
+        createTool(name: $name, description: $description) {
           id
           name
           description
@@ -198,11 +227,11 @@ export function createBookGql({ name, description }) {
         variables: vars,
       })
       .then(data => {
-        const book = data.data.createBook
+        const tool = data.data.createTool
         dispatch({
           type: CREATE + FULFILLED,
-          bookId: createBook.id,
-          book,
+          toolId: createTool.id,
+          tool,
         })
       })
       .catch(error => {
@@ -211,12 +240,12 @@ export function createBookGql({ name, description }) {
   }
 }
 
-export function updateBook({ bookId, name, description }) {
+export function updateTool({ toolId, name, description }) {
   return dispatch => {
-    dispatch({ type: UPDATE + PENDING, payload: { bookId, name, description } })
+    dispatch({ type: UPDATE + PENDING, payload: { toolId, name, description } })
     const mutateQuery = gql`
-      mutation($bookId: String!, $name: String!, $description: String!) {
-        updateBook(bookId: $bookId, name: $name, description: $description) {
+      mutation($toolId: String!, $name: String!, $description: String!) {
+        updateTool(toolId: $toolId, name: $name, description: $description) {
           id
           name
           description
@@ -224,7 +253,7 @@ export function updateBook({ bookId, name, description }) {
       }
     `
     const vars = {
-      bookId,
+      toolId,
       name,
       description,
     }
@@ -234,11 +263,11 @@ export function updateBook({ bookId, name, description }) {
         variables: vars,
       })
       .then(data => {
-        const book = data.data.updateBook
+        const tool = data.data.updateTool
         dispatch({
           type: UPDATE + FULFILLED,
-          bookId: book.id,
-          book,
+          toolId: tool.id,
+          tool,
         })
       })
       .catch(error => {
@@ -247,29 +276,37 @@ export function updateBook({ bookId, name, description }) {
   }
 }
 
-export function clearBook() {
+export function clearTool() {
   return { type: CLEAR }
 }
 
-export function removeBook(id) {
+export function removeTool(id) {
+  return dispatch => {
+        dispatch({
+          type: REMOVE + FULFILLED,
+          toolId: id,
+        })
+  }
+}
+export function removeToolGql(id) {
   return dispatch => {
     dispatch({ type: REMOVE + PENDING })
 
     const mutateQuery = gql`
-      mutation($bookId: String!) {
-        removeBook(bookId: $bookId)
+      mutation($toolId: String!) {
+        removeTool(toolId: $toolId)
       }
     `
 
     client
       .mutate({
         mutation: mutateQuery,
-        variables: { bookId: id },
+        variables: { toolId: id },
       })
       .then(function(data) {
         dispatch({
           type: REMOVE + FULFILLED,
-          bookId: id,
+          toolId: id,
         })
       })
       .catch(error => {
@@ -278,6 +315,6 @@ export function removeBook(id) {
   }
 }
 
-export function selectBook(bookId) {
-  return { type: SELECT_BOOK, bookId }
+export function selectTool(toolId) {
+  return { type: SELECT_TOOL, toolId }
 }

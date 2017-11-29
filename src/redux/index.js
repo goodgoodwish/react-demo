@@ -6,9 +6,10 @@ import thunk from 'redux-thunk'
 // import promise from "redux-promise-middleware"
 
 import books from '../book/book_redux'
-
+import tools from '../tool/tool_redux'
 const reducer = combineReducers({
   books,
+  tools,
 })
 
 // const middleware = applyMiddleware(promise(), thunk, createLogger())

@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import glamorous, { Table, Th, Tr, Td, Div, Span, Input } from 'glamorous'
-
-import { removetool, createtool } from './tool_redux'
-import { Button } from '../component/Button'
+import { bindActionCreators } from 'redux'
+import * as toolActions from './tool_redux'
+import ToolProfile from './tool_profile'
 
 // component & container
 // component part
 
 export const ToolGrid = glamorous.div({
-  padding: '20px',
+  padding: '5px',
   display: 'grid',
   gridColumnGap: '5px',
   gridRowGap: '5px',
@@ -45,7 +45,10 @@ const Footer = glamorous.footer({
 
 
 const ToolListRow = glamorous.li({
-  margin: '1em',
+  display: 'flex',
+  listStyle: 'none',
+  margin: '0.2em 0',
+  padding: '0.2em',
   backgroundColor: 'honeydew',
   boxShadow: '0 0 4px 0 rgba(120, 120, 120, 0.5)',
   transition: '.5s ease all',
@@ -55,23 +58,29 @@ const ToolListRow = glamorous.li({
 })
 
 const ToolListColumn = glamorous.span({
-  padding: '0.5em 1em 0.5em 0.2em',
-  margin: '1em',
+  padding: '0.2em 0.5em',
+  marginRight: '0.5em',
   fontSize: '14px',
   color: 'brown',
+  xborder: '1px solid green'
 })
 
-export class tool extends Component {
+export class Tool extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      toolId: 'tool_18',
-      name: 'Python guide',
-      intro: 'A new tool for new python programming',
+      toolId: '',
       isZoomOn: false,
       toolFilter: '',
     }
     this.changeInput = this.changeInput.bind(this)
+  }
+
+  componentWillMount() {
+    const keys = Object.keys(this.props.tools)
+    if (keys.length > 0) {
+      this.setState({toolId: keys[0]})
+    }
   }
 
   changeInput(event) {
@@ -84,14 +93,20 @@ export class tool extends Component {
     })
   }
 
-  createtool = ({ id, name, intro }) => {
-    this.props.dispatch(createtool({ id, name, intro }))
+  createTool = ({ id, name, code }) => {
+    this.props.createTool({ id, name, code })
   }
 
-  deletetool = () => {
+  deleteTool = () => {
     const { toolId } = this.state
-    this.props.dispatch(removetool(toolId))
+    this.props.removetool(toolId)
   }
+
+  selectRow = (id) => {
+    this.setState({toolId: id });
+    console.log(id)
+  }
+
 
   toggleZoom = (id, tool) => {
     // hide UserZoom comp when click other row,
@@ -111,6 +126,7 @@ export class tool extends Component {
 
   render() {
     const { tools, UI } = this.props
+    const currTag = '<=='
 
     let toolRows = Object.keys(tools)
       .filter(val => {
@@ -132,15 +148,15 @@ export class tool extends Component {
       .map(val => {
         const zoomLetter = this.state.isZoomOn && val === this.state.toolId ? '^': 'v'
         return (
-            <ToolListRow key={val}>
+            <ToolListRow key={val} onClick={()=>this.selectRow(val)} >
               <ToolListColumn>
                 {val}
               </ToolListColumn>
-              <ToolListColumn>
+              <ToolListColumn css={{}} >
                 {tools[val].name}
               </ToolListColumn>
-              <ToolListColumn>
-                {tools[val].intro}
+              <ToolListColumn css={{}} >
+                {val === this.state.toolId && currTag}
               </ToolListColumn>
             </ToolListRow>
         )
@@ -153,11 +169,12 @@ export class tool extends Component {
         <Title css={{}}>
         </Title>
         <Aside css={{}}>
-          {toolRows}
+          <ul>
+            {toolRows}
+          </ul>
         </Aside>
         <Content css={{ marginBottom: '1em' }}>
-          <code />
-          <img />
+          <ToolProfile toolId={this.state.toolId} />
         </Content>
         <Footer>
           <span>‹ Prev</span>

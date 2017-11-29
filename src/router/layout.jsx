@@ -4,17 +4,15 @@ import { connect } from 'react-redux'
 // import { fetchBook } from '../book/book_redux'
 // import { Header } from '../component'
 import Book from '../book/book'
+import Tool from '../tool/tool'
 
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 
 const Home = () => (
   <h1>Home</h1>
 )
 const About = () => (
   <h1>About</h1>
-)
-const Topics = () => (
-  <h1>Topics</h1>
 )
 
 const MenuLink = glamorous(NavLink)({
@@ -30,14 +28,14 @@ const BasicExample = () => (
           <MenuLink to="/">Home</MenuLink>
           <MenuLink to="/book">Book</MenuLink>
           <MenuLink to="/about">About</MenuLink>
-          <MenuLink to="/topics">Topics</MenuLink>
+          <MenuLink to="/tool">Tool</MenuLink>
       </glamorous.Div>
 
       <glamorous.Div css={{backgroundColor: 'beige'}} >
         <Route exact path="/" component={Home} />
         <Route path="/book" component={Book} />
         <Route path="/about" component={About} />
-        <Route path="/topics" component={Topics} />
+        <Route path="/tool" component={Tool} />
       </glamorous.Div>
     </RootFormat>
   </Router>
