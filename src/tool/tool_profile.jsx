@@ -57,30 +57,28 @@ export class ToolProfile extends Component {
     return (
       <div>
         <glamorous.Form>
-	        <glamorous.Div css={{display:'flex', alignItems: 'flex-start' }} >
+	        <glamorous.Div css={{display:'flex', alignItems: 'flex-start', flexWrap: 'wrap' }} >
 	        <label>
-	          Tool ID:<br />
+	          Tool ID:
 	          <input
 	            name="toolId"
 	            value={this.state.toolId}
 	            onChange={this.changeInput} />
 	        </label>
-	        <br />
 	        <label>
-	          Tool Name:<br />
+	          Tool Name:
 	          <input
 	            name="name"
 	            value={this.state.name}
-	            onChange={this.changeInput} /><br />
+	            onChange={this.changeInput} />
 	        </label>
-	        <br /><br />
 	        <label>
-	          Code:<br />
+	          Code:
 	          <textarea
 	            name="code"
 	            value={this.state.code} rows='5' cols='50'
 	            onChange={this.changeInput} />
-	        </label><br />
+	        </label>
 	        </glamorous.Div>
 	        <button onClick={this.createTool} >Save</button>
 	        <button onClick={this.deleteTool} >Delete</button>
