@@ -44,6 +44,11 @@ const initialState = {
       photo: "Rest_vs_GraphQL.png",
       code: ``,
     },
+    tool_g4: {
+      name: "GitHub GraphQL API",
+      photo: "GraphQL_Explorer.png",
+      code: `GitHub's GraphQL Explorer makes use of your real, live, production data.`,
+    },
     tool_r1: {
       name: "flight_info",
       photo: "flight_info.png",
