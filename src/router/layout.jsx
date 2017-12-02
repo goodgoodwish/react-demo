@@ -2,15 +2,12 @@ import React, { Component } from 'react'
 import glamorous from 'glamorous'
 import { connect } from 'react-redux'
 // import { fetchBook } from '../book/book_redux'
-// import { Header } from '../component'
+import { Home } from './home'
 import Book from '../book/book'
 import ToolRoute from '../router/tool_route'
 
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 
-const Home = () => (
-  <h1>Home</h1>
-)
 const About = () => (
   <h1>About</h1>
 )
