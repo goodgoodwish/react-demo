@@ -6,7 +6,7 @@ import { Home } from './home'
 import Book from '../book/book'
 import ToolRoute from '../router/tool_route'
 
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom';
 
 const About = () => (
   <h1>About</h1>
@@ -29,10 +29,12 @@ const BasicExample = () => (
       </glamorous.Div>
 
       <glamorous.Div css={{backgroundColor: 'beige'}} >
-        <Route exact path="/" component={Home} />
-        <Route path="/book" component={Book} />
-        <Route path="/about" component={About} />
-        <Route path="/tool" component={ToolRoute} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/book" component={Book} />
+          <Route path="/about" component={About} />
+          <Route path="/tool" component={ToolRoute} />
+        </Switch>
       </glamorous.Div>
     </RootFormat>
   </Router>

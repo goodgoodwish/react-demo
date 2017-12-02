@@ -31,6 +31,14 @@ const initialState = {
       name: "Grokking Algorithms",
       intro: "Grokking Algorithms: An illustrated guide for programmers and other curious people",
     },
+    book4: {
+      name: "How to Make Better Choices in Life and Work",
+      intro: "tackle one of the most critical topics in our work and personal lives: how to make better decisions.",
+    },
+    book5: {
+      name: "Bring Work to Life by Bringing Life to Work",
+      intro: "Bring Work to Life by Bringing Life to Work: A Guide for Leaders and Organizations",
+    },
   },
 }
 
