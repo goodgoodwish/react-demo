@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 // import { fetchBook } from '../book/book_redux'
 // import { Header } from '../component'
 import Book from '../book/book'
-import Tool from '../tool/tool'
+import ToolRoute from '../router/tool_route'
 
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ const BasicExample = () => (
         <Route exact path="/" component={Home} />
         <Route path="/book" component={Book} />
         <Route path="/about" component={About} />
-        <Route path="/tool" component={Tool} />
+        <Route path="/tool" component={ToolRoute} />
       </glamorous.Div>
     </RootFormat>
   </Router>

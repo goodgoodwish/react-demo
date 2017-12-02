@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import glamorous, { Table, Th, Tr, Td, Div, Span, Input } from 'glamorous'
 import { bindActionCreators } from 'redux'
 import * as toolActions from './tool_redux'
@@ -15,6 +16,19 @@ export class ToolProfile extends Component {
       photo: 'abc.jpg',
     }
     this.changeInput = this.changeInput.bind(this)
+  }
+
+  componentWillMount() {
+  	if (this.props.match === undefined) { return }
+
+    const { toolId } = this.props.match.params
+    const tool = this.props.tools[toolId]
+    const {name, code, photo} = tool
+    if (toolId && tool) {
+	    this.setState({
+	      toolId, name, code, photo
+	    })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -85,7 +99,7 @@ export class ToolProfile extends Component {
 	      </glamorous.Form>
 	      photo: <span>{this.state.photo}</span>
 	      <div>
-	      	<img src={"./tool_img/" + this.state.photo} alt={this.state.name} 
+	      	<img src={"/tool_img/" + this.state.photo} alt={this.state.photo} 
 	      	  width="100%" height="100%"
 	      	/>
 	      </div>

@@ -19,7 +19,7 @@ const initialState = {
     currToolId: '',
   },
   tools: {
-    tool1: {
+    tool_g3: {
       name: "apollo_concept",
       photo: "apollo_concept.png",
       code: `query ToolListQuery {
@@ -34,33 +34,54 @@ const initialState = {
         }
       }`,
     },
-    tool2: {
+    tool_g2: {
       name: "apollo_server",
       photo: "apollo_server.png",
       code: ``,
     },
-    tool3: {
+    tool_g1: {
       name: "Rest_vs_GraphQL",
       photo: "Rest_vs_GraphQL.png",
       code: ``,
     },
-    tool_4: {
+    tool_r1: {
+      name: "flight_info",
+      photo: "flight_info.png",
+      code: `n/a`,
+    },
+    tool_r2: {
+      name: "seq_request_saga",
+      photo: "seq_request_saga.jpeg",
+      code: `yield take(‘FETCH_USER_SUCCESS’);
+  const user = yield select(state => state.user);
+  
+  const departure = yield call(loadDeparture, user);
+  const flight = yield call(loadFlight, departure.flightID);
+  const forecast = yield call(loadForecast, departure.date);
+  yield put({type: ‘FETCH_DASHBOARD_SUCCESS’, payload: {forecast,  flight, departure} });`,
+    },
+    tool_r3: {
       name: "redux-saga: Non-blocking_Saga",
       photo: "Non-blocking_Saga.png",
       code: `const [flight, forecast] = yield [call(loadFlight, departure.flightID), call(loadForecast, departure.date)];`,
     },
-    tool_n: {
-      name: "",
-      photo: "",
+    tool_a1: {
+      name: "callback_hell",
+      photo: "callback_hell.png",
+      code: ``,
+    },
+    tool_a2: {
+      name: "promise_clean_code",
+      photo: "promise_clean_code.png",
       code: ``,
     },
     tool_n2: {
-      name: "",
+      name: "Demo: delete tool_n3",
       photo: "",
       code: ``,
     },
     tool_n1: {
-      name: "",
+      name: "Demo: add tool_n3",
       photo: "",
       code: ``,
     },

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import glamorous, { Table, Th, Tr, Td, Div, Span, Input } from 'glamorous'
 import { bindActionCreators } from 'redux'
 import * as toolActions from './tool_redux'
@@ -139,7 +140,7 @@ export class Tool extends Component {
       .sort((a, b) => {
         const nameA = tools[a].name.toUpperCase()
         const nameB = tools[b].name.toUpperCase()
-        if (nameA < nameB) {
+        if (a < b) {
           return -1
         } else {
           return 1
@@ -158,6 +159,11 @@ export class Tool extends Component {
               <ToolListColumn css={{}} >
                 {val === this.state.toolId && currTag}
               </ToolListColumn>
+              <Link
+                to={`/tool/${val}`}
+              >
+                Edit
+              </Link>
             </ToolListRow>
         )
       })
